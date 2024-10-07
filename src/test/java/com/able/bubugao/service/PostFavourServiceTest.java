@@ -1,9 +1,11 @@
 package com.able.bubugao.service;
 
+import com.able.bubugao.model.entity.User;
+import com.able.bubugao.service.PostFavourService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.able.bubugao.model.entity.Post;
-import com.able.bubugao.model.entity.User;
+
 import javax.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

@@ -1,6 +1,7 @@
 package com.able.bubugao.controller;
 
 import cn.hutool.json.JSONUtil;
+import com.able.bubugao.model.entity.User;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.able.bubugao.annotation.AuthCheck;
 import com.able.bubugao.common.BaseResponse;
@@ -15,7 +16,6 @@ import com.able.bubugao.model.dto.post.PostEditRequest;
 import com.able.bubugao.model.dto.post.PostQueryRequest;
 import com.able.bubugao.model.dto.post.PostUpdateRequest;
 import com.able.bubugao.model.entity.Post;
-import com.able.bubugao.model.entity.User;
 import com.able.bubugao.model.vo.PostVO;
 import com.able.bubugao.service.PostService;
 import com.able.bubugao.service.UserService;

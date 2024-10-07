@@ -1,4 +1,4 @@
-package ${packageName}.model.dto.${dataKey};
+package com.able.bubugao.model.dto.questionBank;
 
 import lombok.Data;
 
@@ -6,13 +6,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 编辑${dataName}请求
+ * 编辑题库请求
  *
  *
- *
+ *  
  */
 @Data
-public class ${upperDataKey}EditRequest implements Serializable {
+public class QuestionBankEditRequest implements Serializable {
 
     /**
      * id
@@ -23,16 +23,15 @@ public class ${upperDataKey}EditRequest implements Serializable {
      * 标题
      */
     private String title;
+    /**
+     * 描述
+     */
+    private String description;
 
     /**
-     * 内容
+     * 图片
      */
-    private String content;
-
-    /**
-     * 标签列表
-     */
-    private List<String> tags;
+    private String picture;
 
     private static final long serialVersionUID = 1L;
 }

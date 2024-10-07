@@ -1,6 +1,8 @@
-package com.able.bubugao.service;
+package com.able.bubugao.service.service;
 
 import javax.annotation.Resource;
+
+import com.able.bubugao.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

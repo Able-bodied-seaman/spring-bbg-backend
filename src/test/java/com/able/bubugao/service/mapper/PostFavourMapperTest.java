@@ -1,5 +1,6 @@
-package com.able.bubugao.mapper;
+package com.able.bubugao.service.mapper;
 
+import com.able.bubugao.mapper.PostFavourMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

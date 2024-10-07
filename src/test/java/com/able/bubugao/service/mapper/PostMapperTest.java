@@ -1,5 +1,6 @@
-package com.able.bubugao.mapper;
+package com.able.bubugao.service.mapper;
 
+import com.able.bubugao.mapper.PostMapper;
 import com.able.bubugao.model.entity.Post;
 import java.util.Date;
 import java.util.List;

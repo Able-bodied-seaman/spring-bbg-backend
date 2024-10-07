@@ -1,5 +1,6 @@
 package com.able.bubugao.controller;
 
+import com.able.bubugao.model.entity.User;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.able.bubugao.annotation.AuthCheck;
 import com.able.bubugao.common.BaseResponse;
@@ -16,7 +17,6 @@ import com.able.bubugao.model.dto.user.UserQueryRequest;
 import com.able.bubugao.model.dto.user.UserRegisterRequest;
 import com.able.bubugao.model.dto.user.UserUpdateMyRequest;
 import com.able.bubugao.model.dto.user.UserUpdateRequest;
-import com.able.bubugao.model.entity.User;
 import com.able.bubugao.model.vo.LoginUserVO;
 import com.able.bubugao.model.vo.UserVO;
 import com.able.bubugao.service.UserService;

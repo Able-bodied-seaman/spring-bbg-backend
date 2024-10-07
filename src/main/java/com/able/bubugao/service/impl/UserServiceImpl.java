@@ -3,6 +3,7 @@ package com.able.bubugao.service.impl;
 import static com.able.bubugao.constant.UserConstant.USER_LOGIN_STATE;
 
 import cn.hutool.core.collection.CollUtil;
+import com.able.bubugao.model.entity.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.able.bubugao.common.ErrorCode;
@@ -10,7 +11,6 @@ import com.able.bubugao.constant.CommonConstant;
 import com.able.bubugao.exception.BusinessException;
 import com.able.bubugao.mapper.UserMapper;
 import com.able.bubugao.model.dto.user.UserQueryRequest;
-import com.able.bubugao.model.entity.User;
 import com.able.bubugao.model.enums.UserRoleEnum;
 import com.able.bubugao.model.vo.LoginUserVO;
 import com.able.bubugao.model.vo.UserVO;
@@ -43,6 +43,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public static final String SALT = " Able";
 
     @Override
+
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
         // 1. 校验
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {

@@ -1,5 +1,6 @@
 package com.able.bubugao.controller;
 
+import com.able.bubugao.model.entity.User;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.able.bubugao.common.BaseResponse;
 import com.able.bubugao.common.ErrorCode;
@@ -10,7 +11,6 @@ import com.able.bubugao.model.dto.post.PostQueryRequest;
 import com.able.bubugao.model.dto.postfavour.PostFavourAddRequest;
 import com.able.bubugao.model.dto.postfavour.PostFavourQueryRequest;
 import com.able.bubugao.model.entity.Post;
-import com.able.bubugao.model.entity.User;
 import com.able.bubugao.model.vo.PostVO;
 import com.able.bubugao.service.PostFavourService;
 import com.able.bubugao.service.PostService;

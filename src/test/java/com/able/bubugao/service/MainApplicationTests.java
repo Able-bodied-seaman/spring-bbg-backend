@@ -1,4 +1,4 @@
-package com.able.bubugao;
+package com.able.bubugao.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

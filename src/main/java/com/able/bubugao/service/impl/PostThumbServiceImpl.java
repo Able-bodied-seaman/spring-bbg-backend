@@ -1,5 +1,6 @@
 package com.able.bubugao.service.impl;
 
+import com.able.bubugao.model.entity.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.able.bubugao.common.ErrorCode;
@@ -7,7 +8,6 @@ import com.able.bubugao.exception.BusinessException;
 import com.able.bubugao.mapper.PostThumbMapper;
 import com.able.bubugao.model.entity.Post;
 import com.able.bubugao.model.entity.PostThumb;
-import com.able.bubugao.model.entity.User;
 import com.able.bubugao.service.PostService;
 import com.able.bubugao.service.PostThumbService;
 import javax.annotation.Resource;

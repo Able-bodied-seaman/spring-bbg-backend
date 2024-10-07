@@ -1,9 +1,9 @@
 package com.able.bubugao.service;
 
+import com.able.bubugao.model.entity.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.able.bubugao.model.dto.user.UserQueryRequest;
-import com.able.bubugao.model.entity.User;
 import com.able.bubugao.model.vo.LoginUserVO;
 import com.able.bubugao.model.vo.UserVO;
 import java.util.List;

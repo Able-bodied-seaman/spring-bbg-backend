@@ -1,5 +1,6 @@
 package com.able.bubugao.service.impl;
 
+import com.able.bubugao.model.entity.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,7 +16,6 @@ import com.able.bubugao.model.dto.post.PostQueryRequest;
 import com.able.bubugao.model.entity.Post;
 import com.able.bubugao.model.entity.PostFavour;
 import com.able.bubugao.model.entity.PostThumb;
-import com.able.bubugao.model.entity.User;
 import com.able.bubugao.model.vo.PostVO;
 import com.able.bubugao.model.vo.UserVO;
 import com.able.bubugao.service.PostService;

@@ -1,5 +1,6 @@
 package com.able.bubugao.service.impl;
 
+import com.able.bubugao.model.entity.User;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -10,7 +11,6 @@ import com.able.bubugao.exception.BusinessException;
 import com.able.bubugao.mapper.PostFavourMapper;
 import com.able.bubugao.model.entity.Post;
 import com.able.bubugao.model.entity.PostFavour;
-import com.able.bubugao.model.entity.User;
 import com.able.bubugao.service.PostFavourService;
 import com.able.bubugao.service.PostService;
 import javax.annotation.Resource;

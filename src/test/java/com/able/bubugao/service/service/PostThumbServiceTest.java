@@ -1,7 +1,9 @@
-package com.able.bubugao.service;
+package com.able.bubugao.service.service;
+
+import javax.annotation.Resource;
 
 import com.able.bubugao.model.entity.User;
-import javax.annotation.Resource;
+import com.able.bubugao.service.PostThumbService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

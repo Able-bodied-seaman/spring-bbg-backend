@@ -1,6 +1,8 @@
-package com.able.bubugao.manager;
+package com.able.bubugao.service.manager;
 
 import javax.annotation.Resource;
+
+import com.able.bubugao.manager.CosManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

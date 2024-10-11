@@ -3,6 +3,7 @@ package com.able.bubugao.service.impl;
 import static com.able.bubugao.constant.UserConstant.USER_LOGIN_STATE;
 
 import cn.hutool.core.collection.CollUtil;
+import com.able.bubugao.constant.RedissonConstant;
 import com.able.bubugao.model.entity.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -16,22 +17,27 @@ import com.able.bubugao.model.vo.LoginUserVO;
 import com.able.bubugao.model.vo.UserVO;
 import com.able.bubugao.service.UserService;
 import com.able.bubugao.utils.SqlUtils;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.redisson.api.RAtomicLong;
+import org.redisson.api.RBitSet;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 /**
  * 用户服务实现
- *
- *  
- *  
  */
 @Service
 @Slf4j
@@ -41,6 +47,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * 盐值，混淆密码
      */
     public static final String SALT = " Able";
+    @Resource
+    private RedissonClient redissonClient;
+
 
     @Override
 
@@ -270,4 +279,53 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 sortField);
         return queryWrapper;
     }
+
+    /**
+     * 添加签到时间
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public boolean addUserSignIn(Long userId) {
+        // 获取当前时间
+        LocalDateTime data = LocalDateTime.now();
+        // 获取用户签到Redis的key
+        String key = RedissonConstant.getUserSignInRedisKey(data.getYear(), userId);
+        // 获取RBitSet对象
+        RBitSet signInBitSet = redissonClient.getBitSet(key);
+        // 获取当前日期是今年的第几天
+        int offset = data.getDayOfYear();
+        // 如果当天没有签到
+        if (!signInBitSet.get(offset)) {
+            // 设置当天签到
+            signInBitSet.set(offset, true);
+
+        }
+        return true;
+    }
+
+    /**
+     * @param userId
+     * @param year
+     * @return
+     */
+    public List<Integer> getUserSignInList(long userId, Integer year) {
+
+        // 获取用户签到Redis的key
+        String key = RedissonConstant.getUserSignInRedisKey(year, userId);
+        // 获取RBitSet对象
+        RBitSet signInBitSet = redissonClient.getBitSet(key);
+        BitSet bitSet = signInBitSet.asBitSet();
+        List<Integer> dayList = new ArrayList<>();
+        int index = bitSet.nextSetBit(0);
+        while (index > 0) {
+
+            dayList.add(index);
+            index = bitSet.nextSetBit(index + 1);
+        }
+        return dayList;
+    }
+
+
 }

@@ -1,9 +1,6 @@
 package com.able.bubugao.controller;
 
-import com.able.bubugao.model.dto.questionBankQuestion.QuestionBankQuestionAddRequest;
-import com.able.bubugao.model.dto.questionBankQuestion.QuestionBankQuestionQueryRequest;
-import com.able.bubugao.model.dto.questionBankQuestion.QuestionBankQuestionRemoveRequest;
-import com.able.bubugao.model.dto.questionBankQuestion.QuestionBankQuestionUpdateRequest;
+import com.able.bubugao.model.dto.questionBankQuestion.*;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -29,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 题库题目关联接口
@@ -225,4 +223,47 @@ public class QuestionBankQuestionController {
         boolean result = questionBankQuestionService.remove(lambdaQueryWrapper);
         return ResultUtils.success(result);
     }
+
+    /**
+     * 批量添加题库的题目id
+     * @param questionBankQuestionBatchAddRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/add/batch")
+    public BaseResponse<Boolean> AddQuestionBankQuestion(@RequestBody QuestionBankQuestionBatchAddRequest questionBankQuestionBatchAddRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(questionBankQuestionBatchAddRequest == null , ErrorCode.PARAMS_ERROR);
+        Long questionBankId = questionBankQuestionBatchAddRequest.getQuestionBankId();
+        User loginUser = userService.getLoginUser(request);
+       List<Long> questionIdList = questionBankQuestionBatchAddRequest.getQuestionIdList();
+        questionBankQuestionService.batchQuestionBankQuestionVoAdd( questionIdList,questionBankId,loginUser);
+        return ResultUtils.success(true);
     }
+
+    /**
+     * 批量删除题库Id
+     * @param questionBankQuestionBatchRemoveRequest
+     * @return
+     */
+    @PostMapping("/remove/batch")
+    public BaseResponse<Boolean>  batchQuestionBankQuestionVoRemove(@RequestBody QuestionBankQuestionBatchRemoveRequest questionBankQuestionBatchRemoveRequest) {
+        ThrowUtils.throwIf(questionBankQuestionBatchRemoveRequest == null , ErrorCode.PARAMS_ERROR);
+        Long questionBankId = questionBankQuestionBatchRemoveRequest.getQuestionBankId();
+        List<Long> questionIdList = questionBankQuestionBatchRemoveRequest.getQuestionIdList();
+        questionBankQuestionService.batchQuestionBankQuestionVoRemove( questionIdList,questionBankId);
+        return ResultUtils.success(true);
+    }
+
+    /**
+     * 批量删除题目
+     * @param questionBatchDeleteRequestion
+     * @return
+     */
+    @PostMapping("/batch/delete")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> batchDeleteQuestions( @RequestBody QuestionBatchDeleteRequestion questionBatchDeleteRequestion){
+        ThrowUtils.throwIf(questionBatchDeleteRequestion == null , ErrorCode.PARAMS_ERROR);
+        questionBankQuestionService.batchDeleteQuestions(questionBatchDeleteRequestion.getQuestionIdList());
+        return ResultUtils.success(true);
+    }
+}

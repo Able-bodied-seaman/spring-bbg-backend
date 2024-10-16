@@ -3,7 +3,7 @@ package com.able.bubugao.model.dto.questionBankQuestion;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
+
 
 /**
  * 创建题库题目关联请求

@@ -1,13 +1,16 @@
 package com.able.bubugao.service;
 
+import com.able.bubugao.model.entity.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.able.bubugao.model.dto.questionBankQuestion.QuestionBankQuestionQueryRequest;
 import com.able.bubugao.model.entity.QuestionBankQuestion;
 import com.able.bubugao.model.vo.QuestionBankQuestionVO;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 题库题目关联服务
@@ -50,4 +53,35 @@ public interface QuestionBankQuestionService extends IService<QuestionBankQuesti
      * @return
      */
     Page<QuestionBankQuestionVO> getQuestionBankQuestionVOPage(Page<QuestionBankQuestion> questionBankQuestionPage, HttpServletRequest request);
+
+    /**
+     * 批量添加题库题目关联
+     * @param questionIdList
+     * @param questionBankId
+     * @param loginUser
+     */
+    void batchQuestionBankQuestionVoAdd(List<Long> questionIdList , Long questionBankId , User loginUser);
+
+    /**
+     * 批量删除题库题目关联
+     * @param questionIDList
+     * @param questionBankId
+     */
+    void batchQuestionBankQuestionVoRemove(List<Long> questionIDList, Long questionBankId);
+
+    /**
+     * 批量删除题目
+     * @param questionIDList
+     */
+    void batchDeleteQuestions( List<Long> questionIDList);
+
+
+    /**
+     * 批量添加题目到题库（事务，仅供内部调用）
+     *
+     * @param questionBankQuestions
+     */
+    @Transactional(rollbackFor = Exception.class)
+    void batchQuestionBankQuestionVoAdd(List<QuestionBankQuestion> questionBankQuestions);
+
 }

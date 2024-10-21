@@ -1,13 +1,12 @@
 package com.able.bubugao.model.vo;
 
-import cn.hutool.json.JSONUtil;
 import com.able.bubugao.model.entity.QuestionBank;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 题库视图
@@ -54,7 +53,10 @@ public class QuestionBankVO implements Serializable {
      * 创建用户信息
      */
     private UserVO user;
-
+    /**
+     * 题库里的题目列表（分页）
+     */
+    Page<QuestionVO> questionPage;
     /**
      * 封装类转对象
      *

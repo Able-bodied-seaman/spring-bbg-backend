@@ -2,9 +2,11 @@ package com.able.bubugao.service.impl;
 
 import static com.able.bubugao.constant.UserConstant.USER_LOGIN_STATE;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.able.bubugao.constant.RedissonConstant;
 import com.able.bubugao.model.entity.User;
+import com.able.bubugao.satoken.DeviceUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.able.bubugao.common.ErrorCode;
@@ -22,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -114,8 +117,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.info("user login failed, userAccount cannot match userPassword");
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");
         }
-        // 3. 记录用户的登录态
-        request.getSession().setAttribute(USER_LOGIN_STATE, user);
+
+        // Sa-Token 登录，并指定设备，同端登录互斥
+        StpUtil.login(user.getId(), DeviceUtils.getRequestDevice(request));
+        StpUtil.getSession().set(USER_LOGIN_STATE, user);
+
         return this.getLoginUserVO(user);
     }
 
@@ -160,19 +166,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User getLoginUser(HttpServletRequest request) {
         // 先判断是否已登录
-        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
-        User currentUser = (User) userObj;
-        if (currentUser == null || currentUser.getId() == null) {
+        Object loginId = StpUtil.getLoginIdDefaultNull();
+        if (Objects.isNull(loginId)) {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
-        // 从数据库查询（追求性能的话可以注释，直接走缓存）
-        long userId = currentUser.getId();
-        currentUser = this.getById(userId);
-        if (currentUser == null) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
-        }
-        return currentUser;
+        return (User) StpUtil.getSessionByLoginId(loginId).get(USER_LOGIN_STATE);
     }
+
 
     /**
      * 获取当前登录用户（允许未登录）
@@ -199,13 +199,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @param request
      * @return
      */
-    @Override
     public boolean isAdmin(HttpServletRequest request) {
         // 仅管理员可查询
-        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+        // 基于 Sa-Token 改造
+        Object userObj = StpUtil.getSession().get(USER_LOGIN_STATE);
+        // Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
         User user = (User) userObj;
         return isAdmin(user);
     }
+
 
     @Override
     public boolean isAdmin(User user) {
@@ -219,13 +221,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public boolean userLogout(HttpServletRequest request) {
-        if (request.getSession().getAttribute(USER_LOGIN_STATE) == null) {
-            throw new BusinessException(ErrorCode.OPERATION_ERROR, "未登录");
-        }
+        StpUtil.checkLogin();
         // 移除登录态
-        request.getSession().removeAttribute(USER_LOGIN_STATE);
+        StpUtil.logout();
         return true;
     }
+
 
     @Override
     public LoginUserVO getLoginUserVO(User user) {
